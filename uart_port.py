@@ -20,16 +20,19 @@ class Serial_Port():
 
 if(__name__ == "__main__"):
     option = sys.argv[1]
-    device_type = sys.argv[2]
-    print(option)
+
     ser = Serial_Port()
 
-    if device_type == "pi4":
-        ser=Serial_Port(port_name='/dev/ttyAMA0')
+    number_of_args = len(sys.argv)
+    if number_of_args > 2 :
+        device_type = sys.argv[2]
+        if device_type == "pi4":
+            ser=Serial_Port(port_name='/dev/ttyAMA0')
 
     while 1 :
         if option == "tx":
             ser.write_serial_message('Hello \n')
         if option == "rx":
-            ser.get_serial_message()
+            message = ser.get_serial_message()
+            print(message)
         time.sleep(1)
