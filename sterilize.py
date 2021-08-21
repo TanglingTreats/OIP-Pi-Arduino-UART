@@ -2,9 +2,12 @@
 from tkinter import *
 import time
 from tkinter.messagebox import showinfo
+from uart_port import Serial_Port
 
 #create tkinter as win
 win = Tk()
+
+serial_port = Serial_Port()
 
 #### functions call #######
 def exitProgram():
@@ -13,22 +16,30 @@ def exitProgram():
     
 def washing():
     current_state.config(text = "Washing!") #change text to washing
+    serial_port.write_serial_message("wash\n")
     countdownTimer(30) #give it 30seconds to run
 
 def sterilize():
     current_state.config(text = "Sterilizing!")
+    serial_port.write_serial_message("sterilize\n")
     countdownTimer(20)    
         
 def drying():
     current_state.config(text = "Drying!")
+    serial_port.write_serial_message("dry\n")
     countdownTimer(120)
     
 #run all will have 0.5s buffer for text to change properly
 #win,after is in milli seconds and after the command will
 #run the commands above with the bracket
 def runAll():
+    serial_port.write_serial_message("wash\n")
     win.after(500, washing)
+
+    serial_port.write_serial_message("sterilize\n")
     win.after(32000,sterilize)
+
+    serial_port.write_serial_message("dry\n")
     win.after(53500,drying)
 
 
