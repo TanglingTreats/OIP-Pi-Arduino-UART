@@ -10,21 +10,26 @@ class Serial_Port():
         self.ser = serial.Serial(port=port_name, baudrate=baudrate, 
                 parity=parity_bit, stopbits=stop_bits, bytesize=byte_size, timeout=timeout)
 
-    def writeSerialMessage(self, message):
+    def write_serial_message(self, message):
         self.ser.write(message.encode())
 
-    def getSerialMessage(self):
+    def get_serial_message(self):
         return self.ser.readline().decode()[:-2]
 
         
 
 if(__name__ == "__main__"):
     option = sys.argv[1]
+    device_type = sys.argv[2]
     print(option)
     ser = Serial_Port()
+
+    if device_type == "pi4":
+        ser=Serial_Port(port_name='/dev/ttyAMA0')
+
     while 1 :
         if option == "tx":
-            ser.writeSerialMessage('Hello \n')
+            ser.write_serial_message('Hello \n')
         if option == "rx":
-            ser.getSerialMessage()
+            ser.get_serial_message()
         time.sleep(1)
