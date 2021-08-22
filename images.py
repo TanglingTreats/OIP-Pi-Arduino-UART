@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 import sys
 import os
+from PIL import Image
 from matplotlib import image
 from matplotlib import pyplot
 
@@ -47,15 +48,37 @@ class Matplot_Images(Images):
             if (os.path.isfile(img_path)):
                 self._images.append(image.imread(img_path))
 
+class PIL_Images(Images):
+    def __init__(self, img_path="images"):
+        # Super class initialises image directory
+        super().__init__(img_path)
+
+        self.get_images_from_dir()
+
+        if(len(self._images) == 0):
+            print("No images were found")
+
+    def get_images_from_dir(self):
+        for file in sorted(os.listdir(self.img_dir_path)):
+            img_path = os.path.join(self.img_dir_path, file)
+
+            if (os.path.isfile(img_path)):
+                self._images.append(Image.open(img_path))
+
 
 if __name__ == "__main__":
     if len(sys.argv) > 1:
         img_dir = sys.argv[1]
-        images = Matplot_Images(img_dir)
+        mpl_images = Matplot_Images(img_dir)
+        pil_images = PIL_Images(img_dir)
     else:
-        images = Matplot_Images()
+        mpl_images = Matplot_Images()
+        pil_images = PIL_Images()
 
-    if (len(images.get_images()) > 0):
-        for img in images.get_images():
+    if (len(mpl_images.get_images()) > 0):
+        for img in mpl_images.get_images():
             print(img.shape)
+            pyplot.imshow(img)
+        for img in pil_images.get_images():
+            print(img.size)
             pyplot.imshow(img)
