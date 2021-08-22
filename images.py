@@ -80,6 +80,7 @@ if __name__ == "__main__":
         for img in mpl_images.get_images():
             print(img.shape)
             pyplot.imshow(img)
+
         for img in pil_images.get_images():
             print(img.size)
             pyplot.imshow(img)
