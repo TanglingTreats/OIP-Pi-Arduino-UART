@@ -11,9 +11,14 @@ class Images:
         self.images = []
         self.__get_images_from_dir()
 
+        if(len(self.images) == 0):
+            print("No images were found")
+
+
     def __get_images_from_dir(self):
         for file in sorted(os.listdir(self.img_dir_path)):
             img_path = os.path.join(self.img_dir_path, file)
+
             if (os.path.isfile(img_path)):
                 self.images.append(image.imread(img_path))
     
