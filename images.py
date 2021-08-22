@@ -1,10 +1,10 @@
-import abc
+from abc import ABC, abstractmethod
 import sys
 import os
 from matplotlib import image
 from matplotlib import pyplot
 
-class Images:
+class Images(ABC):
     def __init__(self, img_path="images"):
         self.isInvalid = False
         self._images = []
@@ -22,12 +22,13 @@ class Images:
     def __set_image_dir(self, dir_path):
         self.img_dir_path = dir_path
 
-    @abc.abstractmethod
+    @abstractmethod
     def get_images_from_dir(self):
         pass
 
     def get_images(self):
         return self._images
+
 
 class Matplot_Images(Images):
     def __init__(self, img_path="images"):
