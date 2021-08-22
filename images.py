@@ -7,13 +7,14 @@ from matplotlib import pyplot
 
 class Images(ABC):
     def __init__(self, img_path="images"):
-        self.isInvalid = False
+        self._is_invalid = False
         self._images = []
         current_file_path = os.path.dirname(os.path.realpath(__file__))
         img_dir_path = os.path.join(current_file_path, img_path)
 
         if (self.__check_dir_validity(img_dir_path)):
             self.__set_image_dir(img_dir_path)
+            self._is_invalid = True
         else:
             print("Given image directory is invalid")
 
@@ -23,8 +24,15 @@ class Images(ABC):
     def __set_image_dir(self, dir_path):
         self.img_dir_path = dir_path
 
+    def get_images_from_dir(self, get_image):
+        for file in sorted(os.listdir(self.img_dir_path)):
+            img_path = os.path.join(self.img_dir_path, file)
+
+            if (os.path.isfile(img_path)):
+                get_image(img_path)
+
     @abstractmethod
-    def get_images_from_dir(self):
+    def get_image(self, path):
         pass
 
     def get_images(self):
@@ -36,34 +44,27 @@ class Matplot_Images(Images):
         # Super class initialises image directory
         super().__init__(img_path)
 
-        self.get_images_from_dir()
+        if(self._is_invalid):
+            self.get_images_from_dir(self.get_image)
+            if(len(self._images) == 0):
+                print("No images were found")
 
-        if(len(self._images) == 0):
-            print("No images were found")
-        
-    def get_images_from_dir(self):
-        for file in sorted(os.listdir(self.img_dir_path)):
-            img_path = os.path.join(self.img_dir_path, file)
+    def get_image(self, path):
+        self._images.append(image.imread(path))
 
-            if (os.path.isfile(img_path)):
-                self._images.append(image.imread(img_path))
 
 class PIL_Images(Images):
     def __init__(self, img_path="images"):
         # Super class initialises image directory
         super().__init__(img_path)
 
-        self.get_images_from_dir()
+        if(self._is_invalid):
+            self.get_images_from_dir(self.get_image)
+            if(len(self._images) == 0):
+                print("No images were found")
 
-        if(len(self._images) == 0):
-            print("No images were found")
-
-    def get_images_from_dir(self):
-        for file in sorted(os.listdir(self.img_dir_path)):
-            img_path = os.path.join(self.img_dir_path, file)
-
-            if (os.path.isfile(img_path)):
-                self._images.append(Image.open(img_path))
+    def get_image(self, path):
+        self._images.append(Image.open(path))
 
 
 if __name__ == "__main__":
