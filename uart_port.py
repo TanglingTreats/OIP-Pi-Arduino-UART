@@ -7,11 +7,13 @@ class Serial_Port():
             parity_bit=serial.PARITY_NONE, stop_bits=serial.STOPBITS_ONE,
             byte_size=serial.EIGHTBITS, timeout=1):
 
+        self.port_name = port_name
         self.ser = serial.Serial(port=port_name, baudrate=baudrate, 
                 parity=parity_bit, stopbits=stop_bits, bytesize=byte_size, timeout=timeout)
         self.ser.flush()
 
     def write_serial_message(self, message):
+        print(f'Writing to {self.port_name} {message}')
         self.ser.write(message.encode('utf-8'))
 
     def get_serial_message(self):
