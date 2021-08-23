@@ -19,6 +19,7 @@ class Serial_Port():
 
     def has_message(self):
         return (self.ser.in_waiting > 0)
+
         
 
 if(__name__ == "__main__"):
@@ -31,11 +32,21 @@ if(__name__ == "__main__"):
         device_type = sys.argv[2]
         if device_type == "pi4":
             ser=Serial_Port(port_name='/dev/ttyAMA0')
+            
 
     while 1 :
         if option == "tx":
+            print("Writing message")
             ser.write_serial_message('1')
+            time.sleep(0.5)
+            ser.write_serial_message('2')
+            time.sleep(0.5)
+            ser.write_serial_message('0')
+            time.sleep(0.5)
+            ser.write_serial_message('3')
         if option == "rx":
-            message = ser.get_serial_message()
-            print(message)
+            if (ser.has_message):
+                print("Trying to receive something")
+                message = ser.get_serial_message()
+                print(message)
         time.sleep(1)
