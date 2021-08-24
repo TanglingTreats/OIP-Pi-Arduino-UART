@@ -46,12 +46,20 @@ def runAll():
 #main function
 def countdownTimer(timer):
     #change the timer to the int passed into the function
+    washBtn.config(state="disable")
+    sterilizeBtn.config(state="disable")
+    dryBtn.config(state="disable")
+    runAllBtn.config(state="disable")
     timer_display.config(text = timer)
     if timer >= 0:
         #count down
         win.after(1000,countdownTimer,timer-1)
         if timer == 0:
             showinfo(title = "Timer Countdown", message= "Time's up")
+            washBtn.config(state="active")
+            sterilizeBtn.config(state="active")
+            dryBtn.config(state="active")
+            runAllBtn.config(state="active")
         #constantly updates the text of the count down timer
         timer_display.config(text = timer)
     else:
