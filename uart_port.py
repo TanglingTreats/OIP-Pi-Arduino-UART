@@ -1,4 +1,5 @@
 import sys
+import os
 import time
 import serial
 
@@ -7,6 +8,7 @@ class Serial_Port():
             parity_bit=serial.PARITY_NONE, stop_bits=serial.STOPBITS_ONE,
             byte_size=serial.EIGHTBITS, timeout=1):
 
+        os.write("sudo chmod 777 /dev/ttyS0")
         self.port_name = port_name
         self.ser = serial.Serial(port=port_name, baudrate=baudrate, 
                 parity=parity_bit, stopbits=stop_bits, bytesize=byte_size, timeout=timeout)
