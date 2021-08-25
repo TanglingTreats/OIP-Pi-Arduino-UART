@@ -138,10 +138,16 @@ current_state = Label(win,text = "Idling!", bg = 'skyblue4',fg = "grey1",
 current_state.place(x=370, y=20)
 
 Label(win,text = "Timer:", bg = 'skyblue4',fg = "grey1",
-      font=('Helvetica bold', 14)).place(x=370, y=70)
+      font=('Helvetica bold', 14)).place(x=270, y=70)
 timer_display = Label(win, text = "00", width = 3, bg = 'skyblue4',
       fg = 'grey1', font = ('Helvetica bold', 14))
-timer_display.place(x=430,y=70)
+timer_display.place(x=330,y=70)
+
+Label(win,text = "Temp:", bg = 'skyblue4',fg = "grey1",
+      font=('Helvetica bold', 14)).place(x=450, y=70)
+temp_display = Label(win, text = "26", width = 3, bg = 'skyblue4',
+      fg = 'grey1', font = ('Helvetica bold', 14))
+temp_display.place(x=510,y=70)
 
 #run win as a loop
 mainloop()
