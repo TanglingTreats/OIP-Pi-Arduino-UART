@@ -1,44 +1,54 @@
 # !/usr//bin/python3
-from tkinter import *
 import time
+import sys
+from tkinter import *
 from tkinter.messagebox import showinfo
 from uart_port import Serial_Port
 
 #create tkinter as win
 win = Tk()
 
-serial_port = Serial_Port(port_name="/dev/ttyACM0")
+opts = [opt for opt in sys.argv[1:] if opt.startswith("-")]
+args = [arg for arg in sys.argv[1:] if not arg.startswith("-")]
+
+if "-no-port" in opts:
+    usePort = False
+    serial_port = Serial_Port()
+else:
+    serial_port = Serial_Port(port_name="/dev/ttyACM0")
 
 #### functions call #######
+def write_to_serial(number):
+    print(f'Input to write {number}')
+    if usePort:
+        serial_port.write_serial_message(number)
+
 def exitProgram():
     print("Exit Button pressed")
     win.quit()
     
 def washing():
-    serial_port.write_serial_message("1")
+    write_to_serial("1")
     current_state.config(text = "Washing!") #change text to washing
-    countdownTimer(5) #give it 30seconds to run
+    countdownTimer(33) #give it 30seconds to run
 
 def sterilize():
-    serial_port.write_serial_message("2")
+    write_to_serial("2")
     current_state.config(text = "Sterilizing!")
-    countdownTimer(5)    
+    countdownTimer(23)    
         
 def drying():
-    serial_port.write_serial_message("3")
+    write_to_serial("3")
     current_state.config(text = "Drying!")
-    countdownTimer(5)
+    countdownTimer(27)
     
 #run all will have 0.5s buffer for text to change properly
 #win,after is in milli seconds and after the command will
 #run the commands above with the bracket
 def runAll():
-    serial_port.write_serial_message("1")
     win.after(500, washing)
-    serial_port.write_serial_message("2")
-    win.after(32000,sterilize)
-    serial_port.write_serial_message("3")
-    win.after(53500,drying)
+    win.after(34000,sterilize)
+    win.after(57500,drying)
 
 #main function
 def countdownTimer(timer):
@@ -122,17 +132,19 @@ runAllText = Label(win,text = "Run All", bg = 'skyblue4',
                    borderwidth = 0, highlightthickness = 0)
 runAllText.place(x=570,y=338)
 #Create Timer Label and Timer widgets
-current_state = Label(win,text = "Idling!", bg = 'skyblue4',fg = "IndianRed1",
+current_state = Label(win,text = "Idling!", bg = 'skyblue4',fg = "grey1",
       font=('Helvetica bold', 22),anchor=CENTER)
 #current_state.pack()
 current_state.place(x=370, y=20)
 
-Label(win,text = "Timer:", bg = 'skyblue4',fg = "IndianRed1",
+Label(win,text = "Timer:", bg = 'skyblue4',fg = "grey1",
       font=('Helvetica bold', 14)).place(x=370, y=70)
 timer_display = Label(win, text = "00", width = 3, bg = 'skyblue4',
-      fg = 'IndianRed2', font = ('Helvetica bold', 14))
+      fg = 'grey1', font = ('Helvetica bold', 14))
 timer_display.place(x=430,y=70)
 
 #run win as a loop
 mainloop()
+
+
 

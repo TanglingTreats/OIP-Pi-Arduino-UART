@@ -22,6 +22,11 @@ class Serial_Port():
 
     def has_message(self):
         return (self.ser.in_waiting > 0)
+
+    def flush_channel(self):
+        self.ser.dtr = True
+        self.ser.reset_input_buffer()
+        self.ser.dtr = False
         
 
 if(__name__ == "__main__"):
