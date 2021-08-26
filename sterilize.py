@@ -15,19 +15,19 @@ def exitProgram():
     win.quit()
     
 def washing():
-    current_state.config(text = "Washing!") #change text to washing
-    countdownTimer(30) #give it 30seconds to run
     serial_port.write_serial_message("1")
+    current_state.config(text = "Washing!") #change text to washing
+    countdownTimer(5) #give it 30seconds to run
 
 def sterilize():
-    current_state.config(text = "Sterilizing!")
-    countdownTimer(20)    
     serial_port.write_serial_message("2")
+    current_state.config(text = "Sterilizing!")
+    countdownTimer(5)    
         
 def drying():
-    current_state.config(text = "Drying!")
-    countdownTimer(120)
     serial_port.write_serial_message("3")
+    current_state.config(text = "Drying!")
+    countdownTimer(5)
     
 #run all will have 0.5s buffer for text to change properly
 #win,after is in milli seconds and after the command will
