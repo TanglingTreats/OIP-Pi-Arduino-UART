@@ -11,15 +11,20 @@ win = Tk()
 opts = [opt for opt in sys.argv[1:] if opt.startswith("-")]
 args = [arg for arg in sys.argv[1:] if not arg.startswith("-")]
 
-for opt, arg in opts:
-    if opt == "-no-port":
+try:
+    if "-no-port" in opts:
         usePort = False
         serial_port = Serial_Port()
-    elif opt == "-port":
-        port_name = arg
+    elif "-port" in opts:
+        arg_index = opts.index("-port")
+        port_name = args[arg_index]
+        print(port_name)
         serial_port = Serial_Port(port_name=port_name)
     else:
         serial_port = Serial_Port(port_name="/dev/ttyACM0")
+except IndexError:
+    print("-port needs a target string")
+    usePort = False
 
 #### functions call #######
 def write_to_serial(number):
