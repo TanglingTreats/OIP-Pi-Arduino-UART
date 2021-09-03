@@ -14,7 +14,6 @@ args = [arg for arg in sys.argv[1:] if not arg.startswith("-")]
 try:
     if "-no-port" in opts:
         usePort = False
-        serial_port = Serial_Port()
     elif "-port" in opts:
         arg_index = opts.index("-port")
         port_name = args[arg_index]
