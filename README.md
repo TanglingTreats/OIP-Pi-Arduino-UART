@@ -17,3 +17,11 @@ Custom port names can be used such as `/dev/serial0` or `/dev/ttyS0` as necessar
 To run with a specific port: `python sterilize.py -port '/dev/ttyS0'`
 
 Or, to run without initialising a port: `python sterilize.py -no-port`
+
+----
+
+### Troubleshooting
+#### `pip install -r requirements.txt` shows `ImportError` for `pip._internal`
+Initialise the virtual environment again within the repository via: `python3 -m virtualenv .`
+
+Then proceed from step 2 onwards.
